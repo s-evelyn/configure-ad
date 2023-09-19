@@ -22,39 +22,129 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
 - [Setup Resources in Azure](#setup)
 - Ensure Connectivity Between Client and Domain Controller
-- Install Active Directory (AD)
+- [Install Active Directory (AD)](#installad)
 - Create and Admin and Normal User Account in AD
 - Join Client-1 to Domain
 - Setup Remote Desktop for non-administrative users on Client-1
 - Create Additional Users and Attempt to Login to Client-1 as one of those Users
   
+    
+
 
 <h2>Deployment and Configuration Steps</h2>
 
-<a name = "setup">
 Setup Resources in Azure
+
+- Create the Domain Control Virtual Machine (VM). This VM will use the image of Windows Server 2022. Name your VM DC-1, and ensure that is uses at least 2 virtual CPUs.
+
+    <img width="40%" height ="40" alt="Create DC-1 VM" src="https://github.com/s-evelyn/configure-ad/assets/53543374/a0995944-c1ed-4a0d-a058-bb14100763c9">
+
+- Make sure to take note of the VM's resource group once the VM has been deployed as it will be needed when creating your second VM.
+    
+    <img width="40%" height ="40" alt="Take note of Resource Group and vnet" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ba49bf01-157a-4bfc-beca-24e157a5a623">
+
+- DC-1 NIC should be set set to static, so that it can be reliably discovered accross the server.
+  - Navigate to the the DC-1 Virtual Machine and click on Networking, and then click on Networking Interface:
+ 
+      <img width="40%" height ="40" alt="Change NIC 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ce9b8e62-805c-434d-b1f4-464b4f3b89dd">
+      
+  - Select IP config in the menu bar 
+
+      <img width="40%" height ="40" alt="Change NIC select IP config" src="https://github.com/s-evelyn/configure-ad/assets/53543374/e562ee0f-70a5-465c-8c79-9e7db675c023">
+
+  - Notice that the ipconfig is set to Dynamic, go ahead and click on ipconfig
+
+      <img width="40%" height ="40" alt="change nic 3" src="https://github.com/s-evelyn/configure-ad/assets/53543374/a9637780-ef16-4071-82db-01268d43f78d">
+
+  - Click on Static and then Save the change made. Take note of the Private IP address of DC-1
+
+      <img width="40%" height ="40" alt="change nic to static" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4018653d-0e6e-436e-9e67-e8a252bf11ae">
+
+- Create another VM in azure and call is Client-1.
+  - Make sure that it has the Windows 10 22H2 imaging and uses at least 2vcpus. Ensure that is uses the same resource group, and vnet as DC-1
+
+      <img width="40%" height ="40" alt="Same resource group" src="https://github.com/s-evelyn/configure-ad/assets/53543374/49fad3f6-725e-47a7-b072-2b4202efebf9">
+
+      <img width="40%" height ="40" alt="V-net the same" src="https://github.com/s-evelyn/configure-ad/assets/53543374/97146f1a-9c2b-4dd4-b496-bda37b8f5854">
+
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Ensure Connectivity between Client-1 and Domain Controller
+
+- Copy the Public IP of Client-1 from Azure
+
+    <img width="869" alt="log on to client-1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/5779eee6-3944-4060-815c-02dd770f5cbe">
+
+- Use this to log on to Client-1 via Remote Desktop Connection.
+
+    <img width="302" alt="log in to remote desktop" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4a772679-fd8b-468a-8c81-ae17aa7f40e5">
+
+- Navigate to command line and ping the private IP address of DC-1. Note that the response Times Out on each attempt.
+
+    <img width="471" alt="ping private ip of DC-1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/31a842c7-60b6-407d-8be2-d4118ea30b2a">
+
+- To ensure connectivity, log in to DC-1 via remote desktop, and navigate to the Windows Defender Firewall with Advanced Security.
+
+    <img width="590" alt="Windows defender firewall" src="https://github.com/s-evelyn/configure-ad/assets/53543374/f774b12d-1947-466c-8296-12e2eed9e205">
+
+- Click on Inbound Rules and find the two ICMP Echos Requests, and click on Enable rule
+
+    <img width="783" alt="Enable ICMP echos" src="https://github.com/s-evelyn/configure-ad/assets/53543374/3cb7aa1c-6db1-4573-891c-f9f2e433c10c">
+
+- Navigate back to client-1 and perform another ping the Private IP address of DC-1. Note that ping succeeded.
+
+    <img width="415" alt="ping after icmp activation" src="https://github.com/s-evelyn/configure-ad/assets/53543374/1db79797-ad72-42fb-b747-83d424602637">
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+<a name = "installad" >
+Install Active Directory
 </a>
 
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-</p>
-<br />
+- Navigate to DC-1 and open Windows Servers Manager
+- Click on Add roles and features
 
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-</p>
-<br />
+    <img width="1440" alt="Install DC Add roles" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6ced0d1e-0f54-40ba-b076-3b64de6784b1">
 
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-</p>
-<br />
+- Click Next until you get to  Server Roles. Click on Active Directory Domain Server
+  
+    <img width="590" alt="Click Active Directory Domain" src="https://github.com/s-evelyn/configure-ad/assets/53543374/f7781151-e389-44a9-a39e-221ae82d75ba">
+
+- Click on Add Features
+
+    <img width="314" alt="Add features" src="https://github.com/s-evelyn/configure-ad/assets/53543374/931fbe7a-a0df-4307-9f77-0e4d41054750">
+
+- Continue to Click Next
+- You will notice a yellow triangle, click on it and then Click "Promote this server to a domain controler"
+
+    <img width="708" alt="Promote to domain controller" src="https://github.com/s-evelyn/configure-ad/assets/53543374/23998a3d-c66e-4c2d-b6ea-563789d1d75f">
+
+- Add a new forest. You can name it whatever you would like just remember. For the purporse of this tutorial we will use mydomain.com. Then click next
+
+    <img width="573" alt="add a new forest" src="https://github.com/s-evelyn/configure-ad/assets/53543374/c5e7cdb0-adbe-4c51-bf9a-1f63befcf77a">
+
+- Type in the Directory Services restore mode password. 
+
+<img width="571" alt="direcroty services restore password" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6633611e-8be4-4a09-9735-a73c24ba4bb2">
+
+- Continue to click next until you get to install, and click install. Once you are finished the VM will restart. Go to azure and refresh the DC-1
+
+    <img width="570" alt="refresh DC-1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ecb1d196-30ea-4d97-b177-9451589c99d8">
+
+- Login into DC-1 this time as mydomain/labuser
+
+    <img width="344" alt="log in as domain user" src="https://github.com/s-evelyn/configure-ad/assets/53543374/e36a301b-0597-45de-b14c-07cba86aad83">
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
