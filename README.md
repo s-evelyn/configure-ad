@@ -26,15 +26,12 @@ This tutorial outlines the implementation of on-premises Active Directory within
 - [Create and Admin and Normal User Account in AD](#user)
 - [Join Client-1 to Domain](#join)
 - [Setup Remote Desktop for non-administrative users on Client-1](#rdc)
-- [Create Additional Users and Attempt to Login to Client-1 as one of those Users](#add)
-  
-    
 
 
 <h2>Deployment and Configuration Steps</h2>
 
 <a name = "setup">
-Setup Resources in Azure
+<h4>Setup Resources in Azure</h4>
 </a>
 
 - Create the Domain Control Virtual Machine (VM). This VM will use the image of Windows Server 2022. Name your VM DC-1, and ensure that is uses at least 2 virtual CPUs.
@@ -44,222 +41,223 @@ Setup Resources in Azure
 
 - Make sure to take note of the VM's resource group once the VM has been deployed as it will be needed when creating your second VM.
     
-    <img width="40%" height ="40" alt="Take note of Resource Group and vnet" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ba49bf01-157a-4bfc-beca-24e157a5a623">
+    <img width="50%" height = "50%" alt="Take note of Resource Group and vnet" src="https://github.com/s-evelyn/configure-ad/assets/53543374/322873bf-1cac-4b21-8f8c-6989f7eae841">
 
 - DC-1 NIC should be set set to static, so that it can be reliably discovered accross the server.
   - Navigate to the the DC-1 Virtual Machine and click on Networking, and then click on Networking Interface:
  
-      <img width="400"  alt="Change NIC 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ce9b8e62-805c-434d-b1f4-464b4f3b89dd">
+      <img width="50%" height ="50%"  alt="Change NIC 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ce9b8e62-805c-434d-b1f4-464b4f3b89dd">
       
   - Select IP config in the menu bar 
 
-      <img width="40%" height ="40" alt="Change NIC select IP config" src="https://github.com/s-evelyn/configure-ad/assets/53543374/e562ee0f-70a5-465c-8c79-9e7db675c023">
+     <img width="50%" height ="50%" alt="Change NIC select IP config" src="https://github.com/s-evelyn/configure-ad/assets/53543374/0d980c73-128b-47a6-be60-90150a23be30">
+   
 
   - Notice that the ipconfig is set to Dynamic, go ahead and click on ipconfig
 
-      <img width="40%" height ="40" alt="change nic 3" src="https://github.com/s-evelyn/configure-ad/assets/53543374/a9637780-ef16-4071-82db-01268d43f78d">
+      <img width="50%" height ="50%" alt="change nic 3" src="https://github.com/s-evelyn/configure-ad/assets/53543374/a9637780-ef16-4071-82db-01268d43f78d">
 
   - Click on Static and then Save the change made. Take note of the Private IP address of DC-1
 
-      <img width="40%" height ="40" alt="change nic to static" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4018653d-0e6e-436e-9e67-e8a252bf11ae">
+      <img width="50%" height ="50%" alt="change nic to static" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4018653d-0e6e-436e-9e67-e8a252bf11ae">
 
 - Create another VM in azure and call is Client-1.
   - Make sure that it has the Windows 10 22H2 imaging and uses at least 2vcpus. Ensure that is uses the same resource group, and vnet as DC-1
 
-      <img width="40%" height ="40" alt="Same resource group" src="https://github.com/s-evelyn/configure-ad/assets/53543374/49fad3f6-725e-47a7-b072-2b4202efebf9">
+      <img width="50%" height ="50%" alt="Same resource group" src="https://github.com/s-evelyn/configure-ad/assets/53543374/49fad3f6-725e-47a7-b072-2b4202efebf9">
 
-      <img width="40%" height ="40" alt="V-net the same" src="https://github.com/s-evelyn/configure-ad/assets/53543374/97146f1a-9c2b-4dd4-b496-bda37b8f5854">
+      <img width="50%" height ="50%" alt="V-net the same" src="https://github.com/s-evelyn/configure-ad/assets/53543374/97146f1a-9c2b-4dd4-b496-bda37b8f5854">
 
 ----------------------------------------------------------------------------------------------------------------------------
 <a name = "connect">
-Ensure Connectivity between Client-1 and Domain Controller
+<h4>Ensure Connectivity between Client-1 and Domain Controller</h4>
 </a>
 
 - Copy the Public IP of Client-1 from Azure
 
-    <img width="869" alt="log on to client-1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/5779eee6-3944-4060-815c-02dd770f5cbe">
+    <img width="50%" height ="50%" alt="log on to client-1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/5779eee6-3944-4060-815c-02dd770f5cbe">
 
 - Use this to log on to Client-1 via Remote Desktop Connection.
 
-    <img width="302" alt="log in to remote desktop" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4a772679-fd8b-468a-8c81-ae17aa7f40e5">
+    <img width="50%" height ="50%" alt="log in to remote desktop" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4a772679-fd8b-468a-8c81-ae17aa7f40e5">
 
 - Navigate to command line and ping the private IP address of DC-1. Note that the response Times Out on each attempt.
 
-    <img width="471" alt="ping private ip of DC-1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/31a842c7-60b6-407d-8be2-d4118ea30b2a">
+    <img width="50%" height ="50%" alt="ping private ip of DC-1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/31a842c7-60b6-407d-8be2-d4118ea30b2a">
 
 - To ensure connectivity, log in to DC-1 via remote desktop, and navigate to the Windows Defender Firewall with Advanced Security.
 
-    <img width="590" alt="Windows defender firewall" src="https://github.com/s-evelyn/configure-ad/assets/53543374/f774b12d-1947-466c-8296-12e2eed9e205">
+    <img width="50%" height ="50%" alt="Windows defender firewall" src="https://github.com/s-evelyn/configure-ad/assets/53543374/f774b12d-1947-466c-8296-12e2eed9e205">
 
 - Click on Inbound Rules and find the two ICMP Echos Requests, and click on Enable rule
 
-    <img width="783" alt="Enable ICMP echos" src="https://github.com/s-evelyn/configure-ad/assets/53543374/3cb7aa1c-6db1-4573-891c-f9f2e433c10c">
+    <img width="50%" height ="50%" alt="Enable ICMP echos" src="https://github.com/s-evelyn/configure-ad/assets/53543374/3cb7aa1c-6db1-4573-891c-f9f2e433c10c">
 
 - Navigate back to client-1 and perform another ping the Private IP address of DC-1. Note that ping succeeded.
 
-    <img width="415" alt="ping after icmp activation" src="https://github.com/s-evelyn/configure-ad/assets/53543374/1db79797-ad72-42fb-b747-83d424602637">
+    <img width="50%" height ="50%" alt="ping after icmp activation" src="https://github.com/s-evelyn/configure-ad/assets/53543374/1db79797-ad72-42fb-b747-83d424602637">
 
 ----------------------------------------------------------------------------------------------------------------------------
 
 <a name = "installad" >
-Install Active Directory
+<h4>Install Active Directory</h4>
 </a>
 
 - Navigate to DC-1 and open Windows Servers Manager
 - Click on Add roles and features
 
-    <img width="1440" alt="Install DC Add roles" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6ced0d1e-0f54-40ba-b076-3b64de6784b1">
+    <img width="50%" height ="50%" alt="Install DC Add roles" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6ced0d1e-0f54-40ba-b076-3b64de6784b1">
 
 - Click Next until you get to  Server Roles. Click on Active Directory Domain Server
   
-    <img width="590" alt="Click Active Directory Domain" src="https://github.com/s-evelyn/configure-ad/assets/53543374/f7781151-e389-44a9-a39e-221ae82d75ba">
+    <img width="50%" height ="50%" alt="Click Active Directory Domain" src="https://github.com/s-evelyn/configure-ad/assets/53543374/f7781151-e389-44a9-a39e-221ae82d75ba">
 
 - Click on Add Features
 
-    <img width="314" alt="Add features" src="https://github.com/s-evelyn/configure-ad/assets/53543374/931fbe7a-a0df-4307-9f77-0e4d41054750">
+    <img width="50%" height ="50%" alt="Add features" src="https://github.com/s-evelyn/configure-ad/assets/53543374/931fbe7a-a0df-4307-9f77-0e4d41054750">
 
 - Continue to Click Next
 - You will notice a yellow triangle, click on it and then Click "Promote this server to a domain controler"
 
-    <img width="708" alt="Promote to domain controller" src="https://github.com/s-evelyn/configure-ad/assets/53543374/23998a3d-c66e-4c2d-b6ea-563789d1d75f">
+    <img width="50%" height ="50%" alt="Promote to domain controller" src="https://github.com/s-evelyn/configure-ad/assets/53543374/23998a3d-c66e-4c2d-b6ea-563789d1d75f">
 
 - Add a new forest. You can name it whatever you would like just remember. For the purporse of this tutorial we will use mydomain.com. Then click next
 
-    <img width="573" alt="add a new forest" src="https://github.com/s-evelyn/configure-ad/assets/53543374/c5e7cdb0-adbe-4c51-bf9a-1f63befcf77a">
+    <img width="50%" height ="50%" alt="add a new forest" src="https://github.com/s-evelyn/configure-ad/assets/53543374/c5e7cdb0-adbe-4c51-bf9a-1f63befcf77a">
 
 - Type in the Directory Services restore mode password. 
 
-<img width="571" alt="direcroty services restore password" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6633611e-8be4-4a09-9735-a73c24ba4bb2">
+    <img width="50%" height ="50%" alt="direcroty services restore password" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6633611e-8be4-4a09-9735-a73c24ba4bb2">
 
 - Continue to click next until you get to install, and click install. Once you are finished the VM will restart. Go to azure and refresh the DC-1
 
-    <img width="570" alt="refresh DC-1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ecb1d196-30ea-4d97-b177-9451589c99d8">
+    <img width="50%" height ="50%" alt="refresh DC-1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ecb1d196-30ea-4d97-b177-9451589c99d8">
 
 - Login into DC-1 this time as mydomain/labuser
 
-    <img width="344" alt="log in as domain user" src="https://github.com/s-evelyn/configure-ad/assets/53543374/e36a301b-0597-45de-b14c-07cba86aad83">
+    <img width="50%" height ="50%" alt="log in as domain user" src="https://github.com/s-evelyn/configure-ad/assets/53543374/e36a301b-0597-45de-b14c-07cba86aad83">
 
 
 ----------------------------------------------------------------------------------------------------------------------------
 <a name = "user">
-**Create an Admin and Normal User Account in DC-1**
+<h4>**Create an Admin and Normal User Account in DC-1**</h4>
 </a>
 
 - In DC-1, open the Windows Server Manager, click on tools and then click on Active Directory Users and Computers (ADUC)
 
-    <img width="1440" alt="Select ADUC" src="https://github.com/s-evelyn/configure-ad/assets/53543374/873573f0-d991-485a-bc61-4b5970fda105">
+    <img width="50%" height ="50%" alt="Select ADUC" src="https://github.com/s-evelyn/configure-ad/assets/53543374/873573f0-d991-485a-bc61-4b5970fda105">
 
 - Create an Organizational Unit (OU) by right clicking on mydomain.com -> New -> Organizational Unit
 
-    <img width="565" alt="organizational unit creation" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6d84f959-d45e-4325-b8bd-a340a7aaf779">
+    <img width="50%" height ="50%" alt="organizational unit creation" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6d84f959-d45e-4325-b8bd-a340a7aaf779">
 
 - Create a new OU called Employees, then click ok
 
-    <img width="326" alt="Add Employees" src="https://github.com/s-evelyn/configure-ad/assets/53543374/e5cb780d-875f-44ab-bd35-229f62412854">
+    <img width="50%" height ="50%" alt="Add Employees" src="https://github.com/s-evelyn/configure-ad/assets/53543374/e5cb780d-875f-44ab-bd35-229f62412854">
 
 - Create a new OU called ADMINS.
 - You are now going to create a new user who has administrative priveleges
 - In ADUC right click on the ADMINS OU that was just created, select New -> Select Users
 
-    <img width="565" alt="New user" src="https://github.com/s-evelyn/configure-ad/assets/53543374/13fc3e07-532b-4f44-8778-5fb188cc03b3">
+    <img width="50%" height ="50%" alt="New user" src="https://github.com/s-evelyn/configure-ad/assets/53543374/13fc3e07-532b-4f44-8778-5fb188cc03b3">
 
 - Fill in with the user's information, then click next.
 
-    <img width="327" alt="jane doe create 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/8ad9d8b7-1ddb-41a1-8b41-4942ff29f038">
+    <img width="50%" height ="50%" alt="jane doe create 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/8ad9d8b7-1ddb-41a1-8b41-4942ff29f038">
 
 - Fill out the password section and for the purpose of this tutorial deselect the "User must change password at next login" and click next.
 
-    <img width="328" alt="jane doe create 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/46c498df-21d4-416c-86d3-a7bb23a9543a">
+    <img width="50%" height ="50%" alt="jane doe create 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/46c498df-21d4-416c-86d3-a7bb23a9543a">
 
 
 - Once the user has been created right click and select properties.
 
-    <img width="565" alt="Add Jane Doe to Security Group" src="https://github.com/s-evelyn/configure-ad/assets/53543374/5dc45b82-125e-4e36-8d41-450a58f22e56">
+    <img width="50%" height ="50%" alt="Add Jane Doe to Security Group" src="https://github.com/s-evelyn/configure-ad/assets/53543374/5dc45b82-125e-4e36-8d41-450a58f22e56">
 
 - Click on Member Of and Add
   
-    <img width="308" alt="Add Jane Doe to Security Group 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4123316a-9cc7-4bdb-a6e3-2aa356111abc">
+    <img width="50%" height ="50%" alt="Add Jane Doe to Security Group 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4123316a-9cc7-4bdb-a6e3-2aa356111abc">
 
 - Type in domain admin and ok
 
-    <img width="340" alt="add jane doe to security group 3" src="https://github.com/s-evelyn/configure-ad/assets/53543374/9be20ef9-9344-4a97-8b3d-736ab6af8b9b">
+    <img width="50%" height ="50%" alt="add jane doe to security group 3" src="https://github.com/s-evelyn/configure-ad/assets/53543374/9be20ef9-9344-4a97-8b3d-736ab6af8b9b">
 
 - Logout/close the remote desktop to DC-1 and log backin as domain/jane.doe
 
-   <img width="337" alt="Sign in as jane doe" src="https://github.com/s-evelyn/configure-ad/assets/53543374/043c9666-22bb-41ce-9752-3efe9b3a0cdc">
+    <img width="50%" height ="50%" alt="Sign in as jane doe" src="https://github.com/s-evelyn/configure-ad/assets/53543374/043c9666-22bb-41ce-9752-3efe9b3a0cdc">
  
 ------------------------------------------------------------------------------------------------------------------------
 
 <a name = "join">
-<h4>**Join Client-1 to the Domain**</h4>
+<h4>Join Client-1 to the Domain</h4>
 </a>
 
 
 - Go to the Azure Portal and navigate to the Client-1 VM.
 - Click on Networking and then on the network interface
 
-    <img width="754" alt="client 1 dns change" src="https://github.com/s-evelyn/configure-ad/assets/53543374/89d5cdb1-0753-4f64-8979-e68c2e1f8ba0">
+    <img width="50%" height ="50%" alt="client 1 dns change" src="https://github.com/s-evelyn/configure-ad/assets/53543374/89d5cdb1-0753-4f64-8979-e68c2e1f8ba0">
 
 - Click on DNS servers
 
-    <img width="457" alt="change dns" src="https://github.com/s-evelyn/configure-ad/assets/53543374/9a22d652-56b9-45a4-a32f-587c01cddbcf">
+    <img width="50%" height ="50%" alt="change dns" src="https://github.com/s-evelyn/configure-ad/assets/53543374/9a22d652-56b9-45a4-a32f-587c01cddbcf">
 
 - Select Custom, and then type in the Private IP address for DC-1
   
-    <img width="599" alt="change dns 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/abf2ade2-9e8a-4220-b95d-16abcc5f7b1b">
+    <img width="50%" height ="50%" alt="change dns 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/abf2ade2-9e8a-4220-b95d-16abcc5f7b1b">
 
 
 - Restart Client-1 from the Azure Portal
   
-    <img width="871" alt="Restart Client 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6bf03add-e39d-4191-a50a-f1c4b70caab3">
+    <img width="50%" height ="50%" alt="Restart Client 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6bf03add-e39d-4191-a50a-f1c4b70caab3">
 
 - Login in to the Client-1 via remote desktop
 - Navigate to System Propertise and then About
 - Click Rename PC (Advanced)
 
-    <img width="599" alt="Rename PC attach to my domain" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4b68f694-8a56-4f92-9ebb-e83e3149eab0">
+    <img width="50%" height ="50%" alt="Rename PC attach to my domain" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4b68f694-8a56-4f92-9ebb-e83e3149eab0">
 
 -  Click on Change
 
-    <img width="306" alt="rename pc 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/d30c2933-f017-43d0-b525-41d3829017ae">
+    <img width="50%" height ="50%" alt="rename pc 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/d30c2933-f017-43d0-b525-41d3829017ae">
 
 - Click on Domain, and then type in the name of your domain and click ok
   
-    <img width="242" alt="rename pc 3" src="https://github.com/s-evelyn/configure-ad/assets/53543374/23b17835-7d15-4aca-b7da-bbe8c46e8c9d">
+    <img width="50%" height ="50%" alt="rename pc 3" src="https://github.com/s-evelyn/configure-ad/assets/53543374/23b17835-7d15-4aca-b7da-bbe8c46e8c9d">
 
 - Then type in the login information for the admin user you created
 
-    <img width="340" alt="login as jane doe admin" src="https://github.com/s-evelyn/configure-ad/assets/53543374/3670a8ba-1124-4b94-872e-90af945d8df8">
+    <img width="50%" height ="50%" alt="login as jane doe admin" src="https://github.com/s-evelyn/configure-ad/assets/53543374/3670a8ba-1124-4b94-872e-90af945d8df8">
 
 - The computer is now going to let you know that you need to restart for the change to take place. And then prompt you to restart.
 
-    <img width="265" alt="restart computer" src="https://github.com/s-evelyn/configure-ad/assets/53543374/30cd7d36-ae0d-44de-be02-2331b73fc2ce">
+    <img width="50%" height ="50%" alt="restart computer" src="https://github.com/s-evelyn/configure-ad/assets/53543374/30cd7d36-ae0d-44de-be02-2331b73fc2ce">
 
-    <img width="265" alt="restart computer 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/332adafa-c99d-4314-8490-e45a157d0038">
+    <img width="50%" height ="50%" alt="restart computer 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/332adafa-c99d-4314-8490-e45a157d0038">
 
 - Open the DC-1 and then go to ADUC. Click on mydomain.com and then Computers. If you see Client-1 there this verifies that it has been added to the domain.
 
-    <img width="565" alt="See Client-1 is attached" src="https://github.com/s-evelyn/configure-ad/assets/53543374/bc8e2c38-ceaa-4daf-a493-86c90fc4e108">
+    <img width="50%" height ="50%" alt="See Client-1 is attached" src="https://github.com/s-evelyn/configure-ad/assets/53543374/bc8e2c38-ceaa-4daf-a493-86c90fc4e108">
 
 
 --------------------------------------------------------------------------------------------------------------------------
 
 <a name = "rdc">
-Setup Remote Desktop for non-administrative users on Client-1
+<h4>Setup Remote Desktop for non-administrative users on Client-1</h4>
 </a>
 
 - Login to Client-1 as the administrative user you created.
 - Open System Properities and click on Remote Desktop
 
-    <img width="596" alt="users who can connect to mydomain" src="https://github.com/s-evelyn/configure-ad/assets/53543374/283c4067-23e3-4acb-9c20-923f183e0df1">
+    <img width="50%" height ="50%" alt="users who can connect to mydomain" src="https://github.com/s-evelyn/configure-ad/assets/53543374/283c4067-23e3-4acb-9c20-923f183e0df1">
 
 - Click on Add
 
-    <img width="341" alt="add domain users" src="https://github.com/s-evelyn/configure-ad/assets/53543374/851254a4-83ca-4f0a-a399-c86c94189b23">
+    <img width="50%" height ="50%" alt="add domain users" src="https://github.com/s-evelyn/configure-ad/assets/53543374/851254a4-83ca-4f0a-a399-c86c94189b23">
 
 - Type in domain users, and then click ok
   
-    <img width="278" alt="add remote desktop users" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6c9135b6-8864-46e3-8aad-c0788e338820">
+    <img width="50%" height ="50%" alt="add remote desktop users" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6c9135b6-8864-46e3-8aad-c0788e338820">
 
 - Note that this is normally done with Group Policy, which would allow you to do this to many systems at once.
 
