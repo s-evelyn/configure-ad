@@ -33,7 +33,9 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
 <h2>Deployment and Configuration Steps</h2>
 
+<a name = "setup">
 Setup Resources in Azure
+</a>
 
 - Create the Domain Control Virtual Machine (VM). This VM will use the image of Windows Server 2022. Name your VM DC-1, and ensure that is uses at least 2 virtual CPUs.
 
@@ -47,7 +49,7 @@ Setup Resources in Azure
 - DC-1 NIC should be set set to static, so that it can be reliably discovered accross the server.
   - Navigate to the the DC-1 Virtual Machine and click on Networking, and then click on Networking Interface:
  
-      <img width="40%" height ="40" alt="Change NIC 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ce9b8e62-805c-434d-b1f4-464b4f3b89dd">
+      <img width="400"  alt="Change NIC 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ce9b8e62-805c-434d-b1f4-464b4f3b89dd">
       
   - Select IP config in the menu bar 
 
@@ -97,7 +99,8 @@ Ensure Connectivity between Client-1 and Domain Controller
 
     <img width="415" alt="ping after icmp activation" src="https://github.com/s-evelyn/configure-ad/assets/53543374/1db79797-ad72-42fb-b747-83d424602637">
 
--------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------
+
 <a name = "installad" >
 Install Active Directory
 </a>
@@ -139,8 +142,9 @@ Install Active Directory
 
 ----------------------------------------------------------------------------------------------------------------------------
 <a name = "user">
-Create an Admin and Normal User Account in DC-1
+**Create an Admin and Normal User Account in DC-1**
 </a>
+
 - In DC-1, open the Windows Server Manager, click on tools and then click on Active Directory Users and Computers (ADUC)
 
     <img width="1440" alt="Select ADUC" src="https://github.com/s-evelyn/configure-ad/assets/53543374/873573f0-d991-485a-bc61-4b5970fda105">
@@ -186,8 +190,78 @@ Create an Admin and Normal User Account in DC-1
  
 ------------------------------------------------------------------------------------------------------------------------
 
-Join Client-1 to the Domain
+<a name = "join">
+<h4>**Join Client-1 to the Domain**</h4>
+</a>
 
+
+- Go to the Azure Portal and navigate to the Client-1 VM.
+- Click on Networking and then on the network interface
+
+    <img width="754" alt="client 1 dns change" src="https://github.com/s-evelyn/configure-ad/assets/53543374/89d5cdb1-0753-4f64-8979-e68c2e1f8ba0">
+
+- Click on DNS servers
+
+    <img width="457" alt="change dns" src="https://github.com/s-evelyn/configure-ad/assets/53543374/9a22d652-56b9-45a4-a32f-587c01cddbcf">
+
+- Select Custom, and then type in the Private IP address for DC-1
+  
+    <img width="599" alt="change dns 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/abf2ade2-9e8a-4220-b95d-16abcc5f7b1b">
+
+
+- Restart Client-1 from the Azure Portal
+  
+    <img width="871" alt="Restart Client 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6bf03add-e39d-4191-a50a-f1c4b70caab3">
+
+- Login in to the Client-1 via remote desktop
+- Navigate to System Propertise and then About
+- Click Rename PC (Advanced)
+
+    <img width="599" alt="Rename PC attach to my domain" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4b68f694-8a56-4f92-9ebb-e83e3149eab0">
+
+-  Click on Change
+
+    <img width="306" alt="rename pc 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/d30c2933-f017-43d0-b525-41d3829017ae">
+
+- Click on Domain, and then type in the name of your domain and click ok
+  
+    <img width="242" alt="rename pc 3" src="https://github.com/s-evelyn/configure-ad/assets/53543374/23b17835-7d15-4aca-b7da-bbe8c46e8c9d">
+
+- Then type in the login information for the admin user you created
+
+    <img width="340" alt="login as jane doe admin" src="https://github.com/s-evelyn/configure-ad/assets/53543374/3670a8ba-1124-4b94-872e-90af945d8df8">
+
+- The computer is now going to let you know that you need to restart for the change to take place. And then prompt you to restart.
+
+    <img width="265" alt="restart computer" src="https://github.com/s-evelyn/configure-ad/assets/53543374/30cd7d36-ae0d-44de-be02-2331b73fc2ce">
+
+    <img width="265" alt="restart computer 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/332adafa-c99d-4314-8490-e45a157d0038">
+
+- Open the DC-1 and then go to ADUC. Click on mydomain.com and then Computers. If you see Client-1 there this verifies that it has been added to the domain.
+
+    <img width="565" alt="See Client-1 is attached" src="https://github.com/s-evelyn/configure-ad/assets/53543374/bc8e2c38-ceaa-4daf-a493-86c90fc4e108">
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+<a name = "rdc">
+Setup Remote Desktop for non-administrative users on Client-1
+</a>
+
+- Login to Client-1 as the administrative user you created.
+- Open System Properities and click on Remote Desktop
+
+    <img width="596" alt="users who can connect to mydomain" src="https://github.com/s-evelyn/configure-ad/assets/53543374/283c4067-23e3-4acb-9c20-923f183e0df1">
+
+- Click on Add
+
+    <img width="341" alt="add domain users" src="https://github.com/s-evelyn/configure-ad/assets/53543374/851254a4-83ca-4f0a-a399-c86c94189b23">
+
+- Type in domain users, and then click ok
+  
+    <img width="278" alt="add remote desktop users" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6c9135b6-8864-46e3-8aad-c0788e338820">
+
+- Note that this is normally done with Group Policy, which would allow you to do this to many systems at once.
 
 
 
