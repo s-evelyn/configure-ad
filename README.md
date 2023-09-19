@@ -20,12 +20,19 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
 <h2>High-Level Deployment and Configuration Steps</h2>
 
-- Step 1
-- Step 2
-- Step 3
-- Step 4
+- [Setup Resources in Azure] (#setup)
+- Ensure Connectivity Between Client and Domain Controller
+- Install Active Directory (AD)
+- Create and Admin and Normal User Account in AD
+- Join Client-1 to Domain
+- Setup Remote Desktop for non-administrative users on Client-1
+- Create Additional Users and Attempt to Login to Client-1 as one of those Users
+  
 
 <h2>Deployment and Configuration Steps</h2>
+
+# Setup Resources in Azure
+
 
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
