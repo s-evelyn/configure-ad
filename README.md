@@ -21,12 +21,12 @@ This tutorial outlines the implementation of on-premises Active Directory within
 <h2>High-Level Deployment and Configuration Steps</h2>
 
 - [Setup Resources in Azure](#setup)
-- Ensure Connectivity Between Client and Domain Controller
+- [Ensure Connectivity Between Client and Domain Controller](#connect)
 - [Install Active Directory (AD)](#installad)
-- Create and Admin and Normal User Account in AD
-- Join Client-1 to Domain
-- Setup Remote Desktop for non-administrative users on Client-1
-- Create Additional Users and Attempt to Login to Client-1 as one of those Users
+- [Create and Admin and Normal User Account in AD](#user)
+- [Join Client-1 to Domain](#join)
+- [Setup Remote Desktop for non-administrative users on Client-1](#rdc)
+- [Create Additional Users and Attempt to Login to Client-1 as one of those Users](#add)
   
     
 
@@ -69,8 +69,9 @@ Setup Resources in Azure
       <img width="40%" height ="40" alt="V-net the same" src="https://github.com/s-evelyn/configure-ad/assets/53543374/97146f1a-9c2b-4dd4-b496-bda37b8f5854">
 
 ----------------------------------------------------------------------------------------------------------------------------
-
+<a name = "connect">
 Ensure Connectivity between Client-1 and Domain Controller
+</a>
 
 - Copy the Public IP of Client-1 from Azure
 
@@ -137,8 +138,9 @@ Install Active Directory
 
 
 ----------------------------------------------------------------------------------------------------------------------------
+<a name = "user">
 Create an Admin and Normal User Account in DC-1
-
+</a>
 - In DC-1, open the Windows Server Manager, click on tools and then click on Active Directory Users and Computers (ADUC)
 
     <img width="1440" alt="Select ADUC" src="https://github.com/s-evelyn/configure-ad/assets/53543374/873573f0-d991-485a-bc61-4b5970fda105">
