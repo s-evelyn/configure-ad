@@ -37,7 +37,8 @@ Setup Resources in Azure
 
 - Create the Domain Control Virtual Machine (VM). This VM will use the image of Windows Server 2022. Name your VM DC-1, and ensure that is uses at least 2 virtual CPUs.
 
-    <img width="40%" height ="40" alt="Create DC-1 VM" src="https://github.com/s-evelyn/configure-ad/assets/53543374/a0995944-c1ed-4a0d-a058-bb14100763c9">
+  <img width="50%" height = "50%" alt="Create DC-1 VM" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6907be9b-4258-40f6-a3aa-ea3f7927d450">
+
 
 - Make sure to take note of the VM's resource group once the VM has been deployed as it will be needed when creating your second VM.
     
@@ -67,7 +68,7 @@ Setup Resources in Azure
 
       <img width="40%" height ="40" alt="V-net the same" src="https://github.com/s-evelyn/configure-ad/assets/53543374/97146f1a-9c2b-4dd4-b496-bda37b8f5854">
 
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------
 
 Ensure Connectivity between Client-1 and Domain Controller
 
@@ -135,15 +136,55 @@ Install Active Directory
     <img width="344" alt="log in as domain user" src="https://github.com/s-evelyn/configure-ad/assets/53543374/e36a301b-0597-45de-b14c-07cba86aad83">
 
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------
+Create an Admin and Normal User Account in DC-1
+
+- In DC-1, open the Windows Server Manager, click on tools and then click on Active Directory Users and Computers (ADUC)
+
+    <img width="1440" alt="Select ADUC" src="https://github.com/s-evelyn/configure-ad/assets/53543374/873573f0-d991-485a-bc61-4b5970fda105">
+
+- Create an Organizational Unit (OU) by right clicking on mydomain.com -> New -> Organizational Unit
+
+    <img width="565" alt="organizational unit creation" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6d84f959-d45e-4325-b8bd-a340a7aaf779">
+
+- Create a new OU called Employees, then click ok
+
+    <img width="326" alt="Add Employees" src="https://github.com/s-evelyn/configure-ad/assets/53543374/e5cb780d-875f-44ab-bd35-229f62412854">
+
+- Create a new OU called ADMINS.
+- You are now going to create a new user who has administrative priveleges
+- In ADUC right click on the ADMINS OU that was just created, select New -> Select Users
+
+    <img width="565" alt="New user" src="https://github.com/s-evelyn/configure-ad/assets/53543374/13fc3e07-532b-4f44-8778-5fb188cc03b3">
+
+- Fill in with the user's information, then click next.
+
+    <img width="327" alt="jane doe create 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/8ad9d8b7-1ddb-41a1-8b41-4942ff29f038">
+
+- Fill out the password section and for the purpose of this tutorial deselect the "User must change password at next login" and click next.
+
+    <img width="328" alt="jane doe create 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/46c498df-21d4-416c-86d3-a7bb23a9543a">
 
 
+- Once the user has been created right click and select properties.
 
+    <img width="565" alt="Add Jane Doe to Security Group" src="https://github.com/s-evelyn/configure-ad/assets/53543374/5dc45b82-125e-4e36-8d41-450a58f22e56">
 
+- Click on Member Of and Add
+  
+    <img width="308" alt="Add Jane Doe to Security Group 2" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4123316a-9cc7-4bdb-a6e3-2aa356111abc">
 
+- Type in domain admin and ok
 
+    <img width="340" alt="add jane doe to security group 3" src="https://github.com/s-evelyn/configure-ad/assets/53543374/9be20ef9-9344-4a97-8b3d-736ab6af8b9b">
 
+- Logout/close the remote desktop to DC-1 and log backin as domain/jane.doe
 
+   <img width="337" alt="Sign in as jane doe" src="https://github.com/s-evelyn/configure-ad/assets/53543374/043c9666-22bb-41ce-9752-3efe9b3a0cdc">
+ 
+------------------------------------------------------------------------------------------------------------------------
+
+Join Client-1 to the Domain
 
 
 
