@@ -48,7 +48,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
  
       <img width="50%" height ="50%"  alt="Change NIC 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ce9b8e62-805c-434d-b1f4-464b4f3b89dd">
       
-  - Select IP config in the menu bar 
+  - Select IP configurations in the menu bar 
 
      <img width="50%" height ="50%" alt="Change NIC select IP config" src="https://github.com/s-evelyn/configure-ad/assets/53543374/0d980c73-128b-47a6-be60-90150a23be30">
    
