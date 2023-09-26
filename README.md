@@ -253,11 +253,12 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
 - Click on Add
 
-    <img width="50%" height ="50%" alt="add domain users" src="https://github.com/s-evelyn/configure-ad/assets/53543374/851254a4-83ca-4f0a-a399-c86c94189b23">
-
+   <img width="50%" height ="50%" alt="add remote desktop users" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6c9135b6-8864-46e3-8aad-c0788e338820">
+    
 - Type in domain users, and then click ok
   
-    <img width="50%" height ="50%" alt="add remote desktop users" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6c9135b6-8864-46e3-8aad-c0788e338820">
+   <img width="50%" height ="50%" alt="add domain users" src="https://github.com/s-evelyn/configure-ad/assets/53543374/851254a4-83ca-4f0a-a399-c86c94189b23">
+
 
 - Note that this is normally done with Group Policy, which would allow you to do this to many systems at once.
 
