@@ -57,7 +57,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
       <img width="50%" height ="50%" alt="change nic 3" src="https://github.com/s-evelyn/configure-ad/assets/53543374/a9637780-ef16-4071-82db-01268d43f78d">
 
-  - Click on Static and then Save the change made. Take note of the Private IP address of DC-1
+  - Click on Static and then Save the change made. Take note of the private IP address of DC-1
 
       <img width="50%" height ="50%" alt="change nic to static" src="https://github.com/s-evelyn/configure-ad/assets/53543374/4018653d-0e6e-436e-9e67-e8a252bf11ae">
 
@@ -93,7 +93,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
     <img width="50%" height ="50%" alt="Enable ICMP echos" src="https://github.com/s-evelyn/configure-ad/assets/53543374/3cb7aa1c-6db1-4573-891c-f9f2e433c10c">
 
-- Navigate back to client-1 and perform another ping the Private IP address of DC-1. Note that ping succeeded.
+- Navigate back to client-1 and perform another ping the private IP address of DC-1. Note that ping succeeded.
 
     <img width="50%" height ="50%" alt="ping after icmp activation" src="https://github.com/s-evelyn/configure-ad/assets/53543374/1db79797-ad72-42fb-b747-83d424602637">
 
