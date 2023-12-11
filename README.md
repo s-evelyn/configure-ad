@@ -116,7 +116,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
     <img width="50%" height ="50%" alt="Add features" src="https://github.com/s-evelyn/configure-ad/assets/53543374/931fbe7a-a0df-4307-9f77-0e4d41054750">
 
--  Click next until the process is complete. Upon completion you will notice a yellow triangle, click on it and then Click "Promote this server to a domain controler".
+-  Click next until the process is complete. Upon completion you will notice a yellow triangle, click on it and then Click "Promote this server to a domain controller".
 
     <img width="50%" height ="50%" alt="Promote to domain controller" src="https://github.com/s-evelyn/configure-ad/assets/53543374/23998a3d-c66e-4c2d-b6ea-563789d1d75f">
 
