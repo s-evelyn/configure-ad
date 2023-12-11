@@ -34,7 +34,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
 <h4>Setup Resources in Azure</h4>
 </a>
 
-- Create the Domain Control Virtual Machine (VM). This VM will use the image of Windows Server 2022. Name your VM DC-1, and ensure that is uses at least 2 virtual CPUs.
+- Create the Domain Controller Virtual Machine (VM). This VM will use the image of Windows Server 2022. Name your VM DC-1, and ensure that is uses at least 2 virtual CPUs.
 
   <img width="50%" height = "50%" alt="Create DC-1 VM" src="https://github.com/s-evelyn/configure-ad/assets/53543374/6907be9b-4258-40f6-a3aa-ea3f7927d450">
 
