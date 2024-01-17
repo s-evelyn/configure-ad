@@ -132,7 +132,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
     <img width="50%" height ="50%" alt="refresh DC-1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ecb1d196-30ea-4d97-b177-9451589c99d8">
 
-- Login into DC-1 this time as mydomain/labuser.
+- Login into DC-1 this time as mydomain\labuser.
 
     <img width="50%" height ="50%" alt="log in as domain user" src="https://github.com/s-evelyn/configure-ad/assets/53543374/e36a301b-0597-45de-b14c-07cba86aad83">
 
