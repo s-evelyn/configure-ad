@@ -44,7 +44,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
     <img width="50%" height = "50%" alt="Take note of Resource Group and vnet" src="https://github.com/s-evelyn/configure-ad/assets/53543374/322873bf-1cac-4b21-8f8c-6989f7eae841">
 
 - DC-1 NIC should be set to static, so that it can be reliably discovered accross the server.
-  - Navigate to the the DC-1 Virtual Machine and click on Networking, and then click on Networking Interface:
+  - Navigate to the the DC-1 Virtual Machine and click on Networking, then click on Networking Interface:
  
       <img width="50%" height ="50%"  alt="Change NIC 1" src="https://github.com/s-evelyn/configure-ad/assets/53543374/ce9b8e62-805c-434d-b1f4-464b4f3b89dd">
       
